@@ -28,6 +28,7 @@ class Book(models.Model):
     date = models.DateField(auto_now_add=True)
     book_genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     price = models.PositiveIntegerField(default=0)
+    #picture = models.ImageField(upload_to="gallery/", height_field=100, width_field=100)
     def __str__(self):
         return self.name
 
@@ -36,7 +37,7 @@ class Comment(models.Model):
         db_table = "Comment"
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
-    text = models.TextField()
+    text = models.TextField(max_length=150)
     comment_book = models.ForeignKey(Book, on_delete=models.CASCADE, 
                                     related_name="Comment") 
     def __str__(self):

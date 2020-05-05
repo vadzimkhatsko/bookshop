@@ -2,28 +2,88 @@
 <html>
 	 <head>
 		  <meta charset="utf-8">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
-		    </head>
-		     <body>
+		  <meta name="viewport" content="width=device-width, initial-scale=1">
+		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      	          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+		<title>
+			BookShop
+		</title>
+<style>
+body {
+	background-color: #f2f2f2;
+		-webkit-font-smoothing: antialiased;
+}
+</style>
+	</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+	<a class="navbar-brand" href="#">BookShop</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item active">
+				<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link disabled" href="#">Disabled</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+				<div class="dropdown-menu" aria-labelledby="dropdown01">
+					<a class="dropdown-item" href="#">Action</a>
+					<a class="dropdown-item" href="#">Another action</a>
+					<a class="dropdown-item" href="#">Something else here</a>
+				</div>
+			</li>
+		</ul>
+		<form class="form-inline my-2 my-lg-0">
+			<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+		</form>
+	</div>
+    </nav>
+			
 			<div class='container'>
+				<p> </p>
+				<p> </p>
 			<hr>
 			{% for book in books %}
-				<h1> {{ book.name }} </h1>
-				<h2> {{ book.book_author }} </h2>
-				<h3> {{ book.book_genre }} </h3>
-				<h3> {{ book.price }} </h3>
-				<h3> {{ book.date }} </h3> 
-				{% for com in book.Comment.all %}
-					<p> {{ com.text }} </p>
-				{% endfor %}
-			<form action="{% url 'comment_url' id_book=book.id %}" method="post">	
+				<hr>
+				<h3>Название: {{ book.name }} </h3>
+				<h5>Автор: {{ book.book_author }} </h5>
+				<h5>Жанр: {{ book.book_genre }} </h5>
+				<h5>Цена:  {{ book.price }} </h5>
+				<h5>Дата добавления {{ book.date }} </h5>
+	    <p>
+	    <a class="btn btn-secondary" data-toggle="collapse" href="#collapse{{ book.id }}" role="button" aria-expanded="false" aria-controls="collapse{{ book.id }}">
+     Посмотреть отзывы:
+  </a>
+	    </p>
+	    <div class="collapse" id="collapse{{ book.id }}">
+		    <div class="card card-body">
+			    {% for com in book.Comment.all %}
+			    <p> {{ com.text }} </p>
+			    {% endfor %}
+			      </div>
+	    </div>  
+				<form action="{% url 'comment_url' id_book=book.id %}" method="post">	
 			 	{% csrf_token %}
 			 	{{ comment }}
-			 	<button type='submit'>Done</button>
+			 	<button type='submit' class="btn btn-outline-secondary">Оставить свой отзыв</button>
 		        </form>
-			 {% endfor %}
-		       	</div>
+			{% endfor %}
+			</div>
+			
+		
+		
+
 		     </body>
 </html>
 

@@ -1,11 +1,40 @@
-<html>
-	<head>
-		<title>
-			My books
-		</title>
-	</head> 
-	<body>
-	{{for i in book}}
-		<h1> {{i.name}} || {{i.book_author}} || {{i.genre}} || {{i.date}} </h1>
-	</body>
-</html>
+{% extends 'bookshop/base_bookshop.html' %}
+
+{% block title %}
+BookShop
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+	<p> </p>
+	<p> </p>
+	<hr>
+	{% for book in books %}
+	<hr>
+	<h3>Название: {{ book.name }} </h3>
+	<h5>Автор: {{ book.book_author }} </h5>
+	<h5>Жанр: {{ book.book_genre }} </h5>
+	<h5>Цена:  {{ book.price }} </h5>
+	<h5>Дата добавления {{ book.date }} </h5>
+	<h1> {{ promise }} </h1>
+	<p>
+	<a class="btn btn-secondary" data-toggle="collapse" href="#collapse{{ book.id }}" role="button" aria-expanded="false" aria-controls="collapse{{ book.id }}">
+		Посмотреть отзывы:
+	</a>
+	</p>
+	<div class="collapse" id="collapse{{ book.id }}">
+		<div class="card card-body">
+			{% for com in book.Comment.all %}
+			<p> {{ com.text }} </p>
+			{% endfor %}
+		</div>
+	</div>
+	<form action="{% url 'comment_url' id_book=book.id %}" method="post">
+		{% csrf_token %}
+		{{ comment }}
+		<button type='submit' class="btn mt-1 btn-outline-secondary">Оставить свой отзыв</button>
+	</form>
+	{% endfor %}
+</div>
+{% endblock %}
+
